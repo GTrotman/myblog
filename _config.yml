@@ -23,7 +23,24 @@ description: >- # this means to ignore newlines until "baseurl:"
 #github_username:  jekyll
 
 repository: "nicolas-van/bootstrap-4-github-pages"
-
+social_links:
+    twitter: garth_trotman
+    github:  gtrotman
+    rss: rss
+    # devto: jekyll
+    # dribbble: jekyll
+    # facebook: jekyll
+    # flickr:   jekyll
+    # instagram: jekyll
+    # linkedin: jekyll
+    # pinterest: jekyll
+    # youtube: jekyll
+    # youtube_channel: UC8CXR0-3I70i1tfPg1PAE1g
+    # youtube_channel_name: CloudCannon
+    # telegram: jekyll
+    # googleplus: +jekyll
+    # microdotblog: jekyll
+    # keybase: jekyll
 # Build settings
 plugins:
   - jekyll-feed
