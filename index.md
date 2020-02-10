@@ -103,3 +103,5 @@ Like this project ? [Consider adding a star on Github](https://github.com/nicola
 ## Other projects
 
 [Easy Markdown to Github Pages](https://nicolas-van.github.io/easy-markdown-to-github-pages/) which documents how to publish Markown files to Github Pages in the fastest way.
+
+ {% icon fa-camera-retro %}
