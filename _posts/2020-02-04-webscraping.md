@@ -1,7 +1,7 @@
 ---
 layout: post
-title:  "Web Scraper"
-date:   2020-02-04 22:30:18 -0500
+title: "Web Scraper"
+date: 2020-02-04 22:30:18 -0500
 ---
 
 I've written my first Python code with the help of [Real Python](https://realpython.com/beautiful-soup-web-scraper-python/ "Web Scraper With Python"). 
