@@ -173,9 +173,15 @@ img::-moz-selection {
   }
 }
 
+.masthead {
+  padding-top: calc(6rem + 74px);
+  padding-bottom: 6rem;
+}
+
 .masthead .masthead-avatar {
   width: 15rem;
 }
+
 header.masthead {
   margin-bottom: 50px;
   background: no-repeat center center;
