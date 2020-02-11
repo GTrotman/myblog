@@ -3,7 +3,7 @@ layout: page
 ---
 
 <section class="page-section" id="about">
-  <div class="container d-flex align-items-center flex-column">
+  <div class="container">
     <!-- About Me Section Heading -->
     <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">About Me</h2>
 
@@ -27,10 +27,10 @@ layout: page
   </div>
 </section>
 
-<section class="page-section bg-primary section"  id="skills" >
-  <div class="container d-flex align-items-center flex-column" style="width:1024px;">
+<section class="page-section bg-primary text-white mb-0"  id="skills" >
+  <div class="container">
     <!-- Skills Section Heading -->
-    <h2 class="page-section-heading text-center text-uppercase text-white mb-0">Technical Skills</h2>
+    <h2 class="page-section-heading text-center text-uppercase text-white">Technical Skills</h2>
 
     <!-- Icon Divider -->
     <div class="divider-custom divider-light">
