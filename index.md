@@ -3,7 +3,7 @@ layout: page
 ---
 
 <section class="page-section" id="about">
-  <div class="container">
+  <div class="container d-flex align-items-center flex-column">
     <!-- About Me Section Heading -->
     <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">About Me</h2>
 
@@ -27,8 +27,8 @@ layout: page
   </div>
 </section>
 
-<section id="skills" class="page-section bg-primary text-white">
-  <div class="container">
+<section class="page-section bg-primary text-white"  id="skills" >
+  <div class="containerc d-flex align-items-center flex-column">
 
     <!-- Skills Section Heading -->
     <h2 class="page-section-heading text-center text-uppercase mb-0">Technical Skills</h2>
