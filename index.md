@@ -27,10 +27,10 @@ layout: page
   </div>
 </section>
 
-<section class="page-section bg-primary text-white"  id="skills" >
+<section class="page-section"  id="skills" >
   <div class="containerc d-flex align-items-center flex-column">
     <!-- Skills Section Heading -->
-    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Technical Skills</h2
+    <h2 class="page-section-heading text-center text-uppercase text-white mb-0">Technical Skills</h2
 
     <!-- Icon Divider -->
     <div class="divider-custom divider-light">
