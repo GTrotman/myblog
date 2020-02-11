@@ -3,7 +3,7 @@ layout: page
 title: __100DaysofCode__
 ---
 
-<section id="about">
+<section class="page-section" id="about">
   <div class="container">
     <!-- About Me Section Heading -->
     <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">About Me</h2>
@@ -28,7 +28,7 @@ title: __100DaysofCode__
   </div>
 </section>
 
-<section id="skills" class="section-alt bg-primary text-white">
+<section id="skills" class="page-section bg-primary text-white">
   <div class="container">
 
     <!-- Skills Section Heading -->
