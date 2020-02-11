@@ -28,7 +28,7 @@ layout: page
 </section>
 
 <section class="page-section bg-primary text-white mb-0"  id="skills" >
-  <div class="container">
+  <div class="section">
     <!-- Skills Section Heading -->
     <h2 class="page-section-heading text-center text-uppercase text-white">Technical Skills</h2>
 
