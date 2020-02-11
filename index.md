@@ -27,7 +27,7 @@ layout: page
   </div>
 </section>
 
-<section class="page-section bg-primary"  id="skills" >
+<section class="page-section bg-primary section"  id="skills" >
   <div class="container d-flex align-items-center flex-column" style="width:1024px;">
     <!-- Skills Section Heading -->
     <h2 class="page-section-heading text-center text-uppercase text-white mb-0">Technical Skills</h2>
