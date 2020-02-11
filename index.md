@@ -1,6 +1,5 @@
 ---
 layout: page
-title: __100DaysofCode__
 ---
 
 <section class="page-section" id="about">
