@@ -620,3 +620,10 @@ ection {
 .text-secondary {
   color: #2c3e50 !important;
 }
+
+.section {
+   width: 100%;
+   max-width: 1024px; /* or whatever width you want */
+   margin-right: auto;
+   margin-left: auto;
+}
