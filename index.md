@@ -27,10 +27,11 @@ title: __100DaysofCode__
     </div>
   </div>
 </section>
+
 <section id="skills" class="section-alt bg-primary text-white">
   <div class="container">
 
-    <!-- About Me Section Heading -->
+    <!-- Skills Section Heading -->
     <h2 class="page-section-heading text-center text-uppercase mb-0">Technical Skills</h2>
 
     <!-- Icon Divider -->
