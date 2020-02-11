@@ -429,6 +429,42 @@ footer .copyright {
   padding: 25px 35px;
 }
 
+ection {
+  padding: 150px 0;
+}
+		
+.sign {
+  font: 500 130px/0.8 'Great Vibes', Helvetica, sans-serif;
+  font-size: 30px;
+  color: #fff;
+  text-shadow: 4px 4px 3px rgba(0,0,0,0.1); 
+}
+
+.div-table {
+  display: table;         
+  width: auto;         
+  /* background-color: #eee; */        
+  /* border: 1px solid #666666;  */       
+  border-spacing: 5px; /* cellspacing:poor IE support for  this */
+}
+.div-table-row {
+  display: table-row;
+  width: auto;
+  clear: both;
+}
+.div-table-col {
+  float: left; /* fix for  buggy browsers */
+  display: table-column;         
+  width: 400px;         
+  /* background-color: #ccc; */
+}
+
+.newspaper {
+  -webkit-column-count: 2; /* Chrome, Safari, Opera */
+  -moz-column-count: 2; /* Firefox */
+  column-count: 2;
+}
+
 .page-section {
   padding: 6rem 0;
 }
