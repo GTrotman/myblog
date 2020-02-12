@@ -16,14 +16,10 @@ layout: default
       <div class="divider-custom-line"></div>
     </div>
 
-    <ul>
-      {% for post in site.posts %}
-      <li>
-        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
-        <p>{{ post.excerpt }}</p>
-       </li>
-       {% endfor %}
-    </ul>
+      {% assign post = site.posts.first %}
+       <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+       <p>{{ post.date | date: "%d %B %Y" }}</p>
+       <p>{{ post.excerpt }}</p>
   </div>
 </section>
 
