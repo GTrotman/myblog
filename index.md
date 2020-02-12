@@ -2,12 +2,12 @@
 layout: default
 ---
 
-<section class="page-section" id="about">
+<section class="page-section" id="post">
   <div class="container">
-    <!-- About Me Section Heading -->
-    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">About Me</h2>
+  <!-- About Me Section Heading -->
+  <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Latest Post</h2>
 
-    <!-- Icon Divider -->
+  <!-- Icon Divider -->
     <div class="divider-custom">
       <div class="divider-custom-line"></div>
       <div class="divider-custom-icon">
@@ -15,6 +15,32 @@ layout: default
       </div>
       <div class="divider-custom-line"></div>
     </div>
+
+    <ul>
+      {% for post in site.posts %}
+      <li>
+        <h2><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h2>
+        <p>{{ post.excerpt }}</p>
+       </li>
+       {% endfor %}
+    </ul>
+  </div>
+</section>
+
+<section class="page-section bg-primary text-white mb-0" id="about">
+  <div class="container">
+    <!-- About Me Section Heading -->
+    <h2 class="page-section-heading text-center text-uppercase text-white">About Me</h2>
+
+    <!-- Icon Divider -->
+    <div class="divider-custom divider-light">
+      <div class="divider-custom-line"></div>
+      <div class="divider-custom-icon">
+        <i class="fas fa-star"></i>
+      </div>
+      <div class="divider-custom-line"></div>
+    </div>
+
     <div class="newspaper">
       I am the Director of Network Services at Long Island University. My job responsibilities encompass all inter and
       intra campus networking, including but not limited to both wired and wireless network. I have overreaching
@@ -27,13 +53,14 @@ layout: default
   </div>
 </section>
 
-<section class="page-section bg-primary text-white mb-0"  id="skills" >
+<section class="page-section"  id="skills" >
   <div class="section">
     <!-- Skills Section Heading -->
-    <h2 class="page-section-heading text-center text-uppercase text-white">Technical Skills</h2>
+    <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Technical Skills</h2>
+
 
     <!-- Icon Divider -->
-    <div class="divider-custom divider-light">
+    <div class="divider-custom">
       <div class="divider-custom-line"></div>
       <div class="divider-custom-icon">
         <i class="fas fa-star"></i>
