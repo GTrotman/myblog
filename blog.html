@@ -4,7 +4,17 @@ title: Blog
 ---
 <div class="py-5">
   <div class="container page-content">
-    <h1>Latest Posts</h1><br/>
+  <!-- About Me Section Heading -->
+  <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Latest Post</h2>
+
+  <!-- Icon Divider -->
+    <div class="divider-custom">
+      <div class="divider-custom-line"></div>
+      <div class="divider-custom-icon">
+        <i class="fas fa-star"></i>
+      </div>
+      <div class="divider-custom-line"></div>
+    </div>
 
     <ul>
       {% for post in site.posts %}
