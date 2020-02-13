@@ -12,7 +12,9 @@ blogger_orig_url: http://blog.datsworld.com/2013/08/simple-init-file-creation.ht
 
 Init scripts are essentially shell scripts. They can be invoked manually, or automatically by the system. To invoke an init script manually, the syntax is: /etc/init.d/service parameter .The following steps walk you through the creation of a simple init script:  
 
-1.  **Define the interpreter.** You need to specify which interpreter will be used to execute this script. The first line of an init script should always be:  
+ 1. **Define the interpreter.** You need to specify which interpreter will be used to execute this script. The first line of an init
+    script should always be:
+
     
  
 
@@ -20,19 +22,20 @@ Init scripts are essentially shell scripts. They can be invoked manually, or aut
 
     
   
-3.  **Define init info.** These lines are needed by chkconfig. They specify what initial runlevels are active and what priority for the start-and-stop script execution order.  
+2.  **Define init info.** These lines are needed by chkconfig. They specify what initial runlevels are active and what priority for the start-and-stop script execution order.  
     Under Centos, the following default runlevels are supported:  
 
-    
-| | |
+
+
+|  |  |
 |--|--|
-| 0. | System Halt|
-| 1. | Single-user mode|
-| 2. | Multiuser, without NFS|
-| 3. | Complete multiuser mode|
-| 4. | User defined|
-| 5. | X11 (XDM login)|
-| 6. | Reboot|
+| 0. |System Halt|
+| 1. |Single-user mode|
+| 2. |Multiuser, without NFS|
+| 3. |Complete multiuser mode|
+| 4. |User defined|
+| 5. |X11 (XDM login)|
+| 6. |Reboot|
 
     
 
@@ -41,9 +44,8 @@ Init scripts are essentially shell scripts. They can be invoked manually, or aut
 
     
   
-5.  **Define the control parameters for the service.** This is were the start, stop, and other control parameters for bar are defined.  
+3.  **Define the control parameters for the service.** This is were the start, stop, and other control parameters for bar are defined.  
     
-
 
 >       case "$1" in  
 >       start)  
@@ -66,26 +68,24 @@ Init scripts are essentially shell scripts. They can be invoked manually, or aut
 >     exit 0
 
     
-    
   
-7.  **Make init script executable.**  
+4.  **Make init script executable.**  
+  
     
-
 
 >     chmod 0755 /etc/init.d/example_init
 
     
   
-9.  **Enable init script.** Once the script has the appropriate execute permissions and the required chkconfig comments, it needs to be added to the chkconfig configuration.  
+5.  **Enable init script.** Once the script has the appropriate execute permissions and the required chkconfig comments, it needs to be added to the chkconfig configuration.  
     
-    
+
 
 >     chkconfig --add example_init
 
     
-    
   
-11.  **Verify your addition to chkconfig.**  
+6.  **Verify your addition to chkconfig.**  
     
 
 >     chkconfig --list | grep example_init  
@@ -101,7 +101,7 @@ Init scripts are essentially shell scripts. They can be invoked manually, or aut
 >     /etc/rc.d/rc6.d/K10example_init  
 >     /etc/rc.d/rc0.d/K10example_init  
 >     /etc/rc.d/init.d/example_init
-> 
-> 
-> Written with [StackEdit](https://stackedit.io/).
 
+
+
+Written with [StackEdit](https://stackedit.io/).
