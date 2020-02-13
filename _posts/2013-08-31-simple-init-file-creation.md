@@ -23,16 +23,17 @@ Init scripts are essentially shell scripts. They can be invoked manually, or aut
 3.  **Define init info.** These lines are needed by chkconfig. They specify what initial runlevels are active and what priority for the start-and-stop script execution order.  
     Under Centos, the following default runlevels are supported:  
 
+<p align="center">
 | | |
 |--|--|
-| 0. |System Halt|
-| 1. |Single-user mode|
-| 2. |Multiuser, without NFS|
-| 3. |Complete multiuser mode|
-| 4. |User defined|
-| 5. |X11 (XDM login)|
-| 6. |Reboot|
-
+| 0. | System Halt|
+| 1. | Single-user mode|
+| 2. | Multiuser, without NFS|
+| 3. | Complete multiuser mode|
+| 4. | User defined|
+| 5. | X11 (XDM login)|
+| 6. | Reboot|
+</p>
     
 
 >     # chkconfig: 2345 90 10  
