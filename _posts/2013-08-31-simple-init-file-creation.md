@@ -23,7 +23,7 @@ Init scripts are essentially shell scripts. They can be invoked manually, or aut
 3.  **Define init info.** These lines are needed by chkconfig. They specify what initial runlevels are active and what priority for the start-and-stop script execution order.  
     Under Centos, the following default runlevels are supported:  
 
-<p align="center">
+    
 | | |
 |--|--|
 | 0. | System Halt|
@@ -33,7 +33,7 @@ Init scripts are essentially shell scripts. They can be invoked manually, or aut
 | 4. | User defined|
 | 5. | X11 (XDM login)|
 | 6. | Reboot|
-</p>
+
     
 
 >     # chkconfig: 2345 90 10  
@@ -43,6 +43,7 @@ Init scripts are essentially shell scripts. They can be invoked manually, or aut
   
 5.  **Define the control parameters for the service.** This is were the start, stop, and other control parameters for bar are defined.  
     
+
 
 >       case "$1" in  
 >       start)  
@@ -65,9 +66,11 @@ Init scripts are essentially shell scripts. They can be invoked manually, or aut
 >     exit 0
 
     
+    
   
 7.  **Make init script executable.**  
     
+
 
 >     chmod 0755 /etc/init.d/example_init
 
@@ -75,9 +78,11 @@ Init scripts are essentially shell scripts. They can be invoked manually, or aut
   
 9.  **Enable init script.** Once the script has the appropriate execute permissions and the required chkconfig comments, it needs to be added to the chkconfig configuration.  
     
+    
 
 >     chkconfig --add example_init
 
+    
     
   
 11.  **Verify your addition to chkconfig.**  
