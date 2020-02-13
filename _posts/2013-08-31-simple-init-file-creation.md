@@ -10,4 +10,92 @@ blogger_id: tag:blogger.com,1999:blog-1770165193886521985.post-61209434029205444
 blogger_orig_url: http://blog.datsworld.com/2013/08/simple-init-file-creation.html
 ---
 
-Init scripts are essentially shell scripts. They can be invoked manually, or automatically by the system. To invoke an init script manually, the syntax is:  /etc/init.d/service parameter .The following steps&nbsp;walk you through the creation of a simple init script:  <br /><ol><li><b>Define the interpreter.</b>&nbsp;You need to specify which interpreter will be used to execute this script. The first line of an init script should always be:<br /><pre style="background-color: #edeeec; border: 1px solid black; color: mediumblue; font-size: 11px; overflow: auto; padding: 1em; width: 520px;">#! /bin/sh</pre></li><br /><li><b>Define init info.</b>&nbsp;These lines are needed by chkconfig. They specify what &nbsp;initial runlevels are active and what &nbsp;priority for the start-and-stop script execution order. <br />Under Centos, the following default runlevels are supported: <br /><table align="center" border="0" cellpadding="0" cellspacing="1" style="width: 250px;"><tbody><tr><td>0.&nbsp; </td><td>System Halt</td></tr><tr><td>1.&nbsp;</td><td>Single-user mode</td></tr><tr><td>2.&nbsp;</td><td>Multiuser, without NFS</td></tr><tr><td>3.&nbsp;</td><td>Complete multiuser mode</td></tr><tr><td>4.&nbsp;</td><td>User defined</td></tr><tr><td>5.&nbsp;</td><td>X11 (XDM login)</td></tr><tr><td>6.&nbsp;</td><td>Reboot</td></tr></tbody> </table><pre style="background-color: #edeeec; border: 1px solid black; color: mediumblue; font-size: 11px; overflow: auto; padding: 1em; width: 520px;"># chkconfig: 2345 90 10<br /># description: Starts and stops EXAMPLE daemon&nbsp;</pre></li><br /><li><b>Define the control parameters for the service.</b>&nbsp;This is were the start, stop, and other control parameters for bar are defined.<br /><pre style="background-color: #edeeec; border: 1px solid black; color: mediumblue; font-size: 11px; overflow: auto; padding: 1em; width: 520px;">  case "$1" in<br />  start)<br />    echo "Starting example"<br />    ## run application you want to start<br />    python /usr/local/sbin/EXAMPLE &amp;<br />    ;;<br />  stop)<br />    echo "Stopping example"<br />    ## kill application you want to stop<br />    killall EXAMPLE<br />    ;;<br />  *)<br />    ## If no parameters are given, print which are avaiable.<br />    echo "Usage: /etc/init.d/example{start|stop}"<br />    exit 1<br />    ;;<br />esac<br /> <br />exit 0</pre></li><br /><li><b>Make init script executable.</b><br /><pre style="background-color: #edeeec; border: 1px solid black; color: mediumblue; font-size: 11px; overflow: auto; padding: 1em; width: 520px;">chmod 0755 /etc/init.d/example_init</pre></li><br /><li><b>Enable init script.</b>&nbsp;Once the script has the &nbsp;appropriate execute permissions and the required chkconfig comments, it needs to be added to the chkconfig configuration.<br /><pre style="background-color: #edeeec; border: 1px solid black; color: mediumblue; font-size: 11px; overflow: auto; padding: 1em; width: 520px;">chkconfig --add example_init</pre></li><br /><li><b>Verify your addition to chkconfig.</b><br /> <pre style="background-color: #edeeec; border: 1px solid black; color: mediumblue; font-size: 11px; overflow: auto; padding: 1em; width: 520px;">chkconfig --list | grep example_init<br />oracle        0:off     1:off   2:on   3:on   4:on   5:on  6:off<br /><br /><br />find /etc/rc.d -name '*example_init' -print<br />/etc/rc.d/rc5.d/S90example_init<br />/etc/rc.d/rc3.d/S90example_init<br />/etc/rc.d/rc2.d/S90example_init<br />/etc/rc.d/rc4.d/S90example_init<br />/etc/rc.d/rc1.d/K10example_init<br />/etc/rc.d/rc6.d/K10example_init<br />/etc/rc.d/rc0.d/K10example_init<br />/etc/rc.d/init.d/example_init<br /></pre></li></ol><marquee scrolldelay="250" behavior="alternate"><article><p></p></article></marquee>
+Init scripts are essentially shell scripts. They can be invoked manually, or automatically by the system. To invoke an init script manually, the syntax is: /etc/init.d/service parameter .The following steps walk you through the creation of a simple init script:  
+
+1.  **Define the interpreter.** You need to specify which interpreter will be used to execute this script. The first line of an init script should always be:  
+    
+ 
+
+>    #! /bin/sh
+
+    
+  
+3.  **Define init info.** These lines are needed by chkconfig. They specify what initial runlevels are active and what priority for the start-and-stop script execution order.  
+    Under Centos, the following default runlevels are supported:  
+
+| | |
+|--|--|
+| 0. |System Halt|
+| 1. |Single-user mode|
+| 2. |Multiuser, without NFS|
+| 3. |Complete multiuser mode|
+| 4. |User defined|
+| 5. |X11 (XDM login)|
+| 6. |Reboot|
+
+    
+
+>     # chkconfig: 2345 90 10  
+>     # description: Starts and stops EXAMPLE daemon
+
+    
+  
+5.  **Define the control parameters for the service.** This is were the start, stop, and other control parameters for bar are defined.  
+    
+
+>       case "$1" in  
+>       start)  
+>         echo "Starting example"  
+>         ## run application you want to start  
+>         python /usr/local/sbin/EXAMPLE &  
+>         ;;  
+>       stop)  
+>         echo "Stopping example"  
+>         ## kill application you want to stop  
+>         killall EXAMPLE  
+>         ;;  
+>       *)  
+>         ## If no parameters are given, print which are avaiable.  
+>         echo "Usage: /etc/init.d/example{start|stop}"  
+>         exit 1  
+>         ;;  
+>     esac  
+>        
+>     exit 0
+
+    
+  
+7.  **Make init script executable.**  
+    
+
+>     chmod 0755 /etc/init.d/example_init
+
+    
+  
+9.  **Enable init script.** Once the script has the appropriate execute permissions and the required chkconfig comments, it needs to be added to the chkconfig configuration.  
+    
+
+>     chkconfig --add example_init
+
+    
+  
+11.  **Verify your addition to chkconfig.**  
+    
+
+>     chkconfig --list | grep example_init  
+>     oracle        0:off     1:off   2:on   3:on   4:on   5:on  6:off  
+>       
+>       
+>     find /etc/rc.d -name '*example_init' -print  
+>     /etc/rc.d/rc5.d/S90example_init  
+>     /etc/rc.d/rc3.d/S90example_init  
+>     /etc/rc.d/rc2.d/S90example_init  
+>     /etc/rc.d/rc4.d/S90example_init  
+>     /etc/rc.d/rc1.d/K10example_init  
+>     /etc/rc.d/rc6.d/K10example_init  
+>     /etc/rc.d/rc0.d/K10example_init  
+>     /etc/rc.d/init.d/example_init
+> 
+> 
+> Written with [StackEdit](https://stackedit.io/).
+
