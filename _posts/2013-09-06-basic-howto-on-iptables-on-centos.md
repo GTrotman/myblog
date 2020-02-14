@@ -14,4 +14,213 @@ blogger_id: tag:blogger.com,1999:blog-1770165193886521985.post-63540088074688387
 blogger_orig_url: http://blog.datsworld.com/2013/09/basic-howto-on-iptables-on-centos.html
 ---
 
-IPTables is a firewall software tool used in Linux software distributions to administer IPv4 packet filtering and <acronym title="Network Address Translation">NAT</acronym>. It can be used to set up, maintain, and inspect IP packet filter rules in the Linux kernel. Iptables is installed by default on all CentOS 5.x and 6.x.<br /><br />IPTables has 4 built-in tables the filter table, <acronym title="Network Address Translation">NAT</acronym> table, mangle table and raw table. Each table contain chains and within each chain there are rules. The filter table is configured in  CentOS 5.x and 6.x. There are 3 predefined chains in the filter table to which rules are added. The following are the chains in the filter table:<br /><blockquote><ul><li>INPUT chain – Incoming to firewall. For packets coming to the local server.</li><li>OUTPUT chain – Outgoing from firewall. For packets generated locally and going out of the local server.</li><li>FORWARD chain – Packet for another <acronym title="Network Interface Card">NIC</acronym> on the local server. For packets routed through the local server.</li></ul></blockquote><div class="separator" style="clear: both; text-align: center;"><a href="http://2.bp.blogspot.com/-yarqXxZc6ik/Uik6vCr9SvI/AAAAAAAAAB0/QfLtaI3zYtQ/s1600/iptable_filter_table.jpg" imageanchor="1" style="margin-left: 1em; margin-right: 1em;"><img border="0" height="320" src="http://2.bp.blogspot.com/-yarqXxZc6ik/Uik6vCr9SvI/AAAAAAAAAB0/QfLtaI3zYtQ/s320/iptable_filter_table.jpg" width="147" /></a></div><h3><span style="color: #29aae1;"><br /></span></h3><h3><span style="color: #29aae1;">List rules in the filter table</span></h3><br />The following displays the list of rules in the filter table. The -n option show the numeric format of &nbsp;the IP address and port number, the -v option displays the packet count, the -L list the ruleset &nbsp; and the --line-numbers option list the line number of the rule: <br /><br />iptables -nvL&nbsp; --line-numbers<br /><br /><pre class="pre1 shadow">[root@glt ~]# iptables -nvL --line-numbers<br />Chain INPUT (policy ACCEPT 0 packets, 0 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />1    3777K 5463M ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED<br />2       80  2837 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0<br />3       10   440 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0<br />4      186 10820 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22<br />5      900 60201 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited<br /><br />Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />1        0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited<br /><br />Chain OUTPUT (policy ACCEPT 2329K packets, 141M bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br /></pre><h3><span style="color: #29aae1;"><br /></span></h3><h3><span style="color: #29aae1;">Appending Rules</span></h3><br />The following adds a Rule at the end of the specified chain of IPTables. The -A option appends the rule, -p &nbsp;is used to select the protocol, --dport indicates the destination port and &nbsp;-j ACCEPT simply means &nbsp;jumps to ACCEPT : <br /><br />iptables -A INPUT -p tcp --dport 80 -j ACCEPT<br /><br /><pre class="pre1 shadow">[root@glt ~]# iptables -A INPUT -p tcp --dport 80 -j ACCEPT<br />[root@glt ~]# iptables -nvL --line-numbers<br />Chain INPUT (policy ACCEPT 0 packets, 0 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />1    3777K 5463M ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED<br />2       80  2837 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0<br />3       10   440 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0<br />4      186 10820 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22<br />5      901 60241 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited<br />6        0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           tcp dpt:80<br /><br />Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />1        0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited<br /><br />Chain OUTPUT (policy ACCEPT 4 packets, 512 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />[root@glt ~]#</pre><h3><span style="color: #29aae1;"><br /></span></h3><h3><span style="color: #29aae1;">Deleting Rules</span></h3><br />To delete a Rule, you must know its position in the chain and use the -D option:<br /><br />iptables -D INPUT 6<br /><br /><pre class="pre1 shadow">[root@glt ~]# iptables -D INPUT 6<br />[root@glt ~]# iptables -nvL --line-numbers<br />Chain INPUT (policy ACCEPT 0 packets, 0 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />1    3777K 5463M ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED<br />2       80  2837 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0<br />3       10   440 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0<br />4      186 10820 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22<br />5      903 60369 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited<br /><br />Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />1        0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited<br /><br />Chain OUTPUT (policy ACCEPT 55 packets, 5156 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br /></pre><h3><span style="color: #29aae1;"><br /></span></h3><h3><span style="color: #29aae1;">Inserting Rules</span></h3><br />The following commands inserts a rule using the -I option:<br /><br />iptables -I INPUT&nbsp;5 -p tcp --dport 80 -j ACCEPT<br />iptables -I INPUT&nbsp;6 -p tcp --dport 443 -j ACCEPT<br /><br /><pre class="pre1 shadow">[root@glt ~]# iptables -I INPUT 5 -p tcp --dport 80 -j ACCEPT<br />[root@glt ~]# iptables -I INPUT 6 -p tcp --dport 443 -j ACCEPT<br />[root@glt ~]# iptables -nvL --line-numbers<br />Chain INPUT (policy ACCEPT 0 packets, 0 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />1    3777K 5463M ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED<br />2       82  2954 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0<br />3       10   440 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0<br />4      186 10820 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22<br />5        0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           tcp dpt:80<br />6        0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           tcp dpt:443<br />7      905 60465 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited<br /><br />Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />1        0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited<br /><br />Chain OUTPUT (policy ACCEPT 52 packets, 4976 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />[root@glt ~]#<br /></pre><h3><span style="color: #29aae1;"><br /></span></h3><h3><span style="color: #29aae1;">Replacing Rules</span></h3><br />Using the -R option existing rules can be replaced in the chain:<br /><br />&nbsp;iptables -R INPUT 5&nbsp;-p tcp -s 192.168.0.0/24 --dport&nbsp;80 -j ACCEPT<br /><br /><pre class="pre1 shadow">[root@glt ~]# iptables -R INPUT 5 -p tcp -s 192.168.0.0/24 --dport 80 -j ACCEPT<br />[root@glt ~]# iptables -nvL --line-numbers<br />Chain INPUT (policy ACCEPT 0 packets, 0 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />1    3777K 5463M ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED<br />2       83  3015 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0<br />3       10   440 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0<br />4      186 10820 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22<br />5        0     0 ACCEPT     tcp  --  *      *       192.168.0.0/24       0.0.0.0/0           tcp dpt:80<br />6        0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           tcp dpt:443<br />7      917 61834 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited<br /><br />Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />1        0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited<br /><br />Chain OUTPUT (policy ACCEPT 3 packets, 436 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination</pre><br />Other example: replacing rule on line 2 that allows ICMP to blocking ICMP<br /><br /><pre class="pre1 shadow">[root@glt ~]# iptables -R INPUT 2 -p icmp --icmp-type echo-request -j DROP<br />[root@glt ~]# iptables -nvL --line-numbers<br />Chain INPUT (policy ACCEPT 0 packets, 0 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />1    3782K 5464M ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED<br />2        0     0 DROP       icmp --  *      *       0.0.0.0/0            0.0.0.0/0           icmp type 8<br />3       10   440 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0<br />4      503 29488 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22<br />5        0     0 ACCEPT     tcp  --  *      *       192.168.0.0/24       0.0.0.0/0           tcp dpt:80<br />6        8   348 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           tcp dpt:443<br />7     1530  101K REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited<br /><br />Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />1        0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited<br /><br />Chain OUTPUT (policy ACCEPT 40 packets, 3952 bytes)<br />num   pkts bytes target     prot opt in     out     source               destination<br />[root@glt ~]#</pre><h3><span style="color: #29aae1;">Saving changes to the filter table</span></h3><br />The iptables Rules changes using CLI commands will be lost upon system reboot if not saved. The command &nbsp;iptables-save &nbsp;can be used to save changes. The utility iptables-restore can be used to restore the table if a dump file is created:<br /><br />&nbsp;iptables-save &gt; iptables.dump&nbsp; <br /><br /><pre class="pre1 shadow">[root@glt ~]#  iptables-save &gt; iptables.dump<br />[root@glt ~]# ls<br />anaconda-ks.cfg                      install.log<br />HoneyDrive_0.2_Nectar_edition.ova    install.log.syslog<br />HoneyDrive_0.2_Nectar_edition.ova.1  iptables.dump<br />[root@glt ~]# cat iptables.dump<br /># Generated by iptables-save v1.4.7 on Thu Sep  5 22:48:36 2013<br />*filter<br />:INPUT ACCEPT [0:0]<br />:FORWARD ACCEPT [0:0]<br />:OUTPUT ACCEPT [23:4220]<br />-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT<br />-A INPUT -p icmp -j ACCEPT<br />-A INPUT -i lo -j ACCEPT<br />-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT<br />-A INPUT -s 192.168.0.0/24 -p tcp -m tcp --dport 80 -j ACCEPT<br />-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT<br />-A INPUT -j REJECT --reject-with icmp-host-prohibited<br />-A FORWARD -j REJECT --reject-with icmp-host-prohibited<br />COMMIT<br /># Completed on Thu Sep  5 22:48:36 2013<br />[root@glt ~]#<br /></pre><br /><br /><br /><br /><marquee scrolldelay="250" behavior="alternate"><article><p></p></article></marquee>
+IPTables is a firewall software tool used in Linux software distributions to administer IPv4 packet filtering and NAT. It can be used to set up, maintain, and inspect IP packet filter rules in the Linux kernel. Iptables is installed by default on all CentOS 5.x and 6.x.  
+  
+IPTables has 4 built-in tables the filter table, NAT table, mangle table and raw table. Each table contain chains and within each chain there are rules. The filter table is configured in CentOS 5.x and 6.x. There are 3 predefined chains in the filter table to which rules are added. The following are the chains in the filter table:  
+
+> -   INPUT chain – Incoming to firewall. For packets coming to the local server.
+> -   OUTPUT chain – Outgoing from firewall. For packets generated locally and going out of the local server.
+> -   FORWARD chain – Packet for another NIC on the local server. For packets routed through the local server.
+
+[![](https://camo.githubusercontent.com/20c17d52858974b533132705e3d47ab8af7ba3f6/687474703a2f2f322e62702e626c6f6773706f742e636f6d2f2d7961727158785a6336696b2f55696b36764372395376492f41414141414141414142302f51664c746149337a5974512f733332302f69707461626c655f66696c7465725f7461626c652e6a7067)](http://2.bp.blogspot.com/-yarqXxZc6ik/Uik6vCr9SvI/AAAAAAAAAB0/QfLtaI3zYtQ/s1600/iptable_filter_table.jpg)
+
+###   
+
+### List rules in the filter table
+
+  
+The following displays the list of rules in the filter table. The -n option show the numeric format of the IP address and port number, the -v option displays the packet count, the -L list the ruleset and the --line-numbers option list the line number of the rule:  
+  
+iptables -nvL --line-numbers  
+  
+```
+[root@glt ~]# iptables -nvL --line-numbers  
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+1    3777K 5463M ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED  
+2       80  2837 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0  
+3       10   440 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0  
+4      186 10820 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22  
+5      900 60201 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited  
+  
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+1        0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited  
+  
+Chain OUTPUT (policy ACCEPT 2329K packets, 141M bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+```
+###   
+
+### Appending Rules
+
+  
+The following adds a Rule at the end of the specified chain of IPTables. The -A option appends the rule, -p is used to select the protocol, --dport indicates the destination port and -j ACCEPT simply means jumps to ACCEPT :  
+  
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT  
+  
+```
+[root@glt ~]# iptables -A INPUT -p tcp --dport 80 -j ACCEPT  
+[root@glt ~]# iptables -nvL --line-numbers  
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+1    3777K 5463M ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED  
+2       80  2837 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0  
+3       10   440 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0  
+4      186 10820 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22  
+5      901 60241 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited  
+6        0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           tcp dpt:80  
+  
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+1        0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited  
+  
+Chain OUTPUT (policy ACCEPT 4 packets, 512 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+[root@glt ~]#
+```
+###   
+
+### Deleting Rules
+
+  
+To delete a Rule, you must know its position in the chain and use the -D option:  
+  
+iptables -D INPUT 6  
+  
+```
+[root@glt ~]# iptables -D INPUT 6  
+[root@glt ~]# iptables -nvL --line-numbers  
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+1    3777K 5463M ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED  
+2       80  2837 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0  
+3       10   440 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0  
+4      186 10820 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22  
+5      903 60369 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited  
+  
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+1        0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited  
+  
+Chain OUTPUT (policy ACCEPT 55 packets, 5156 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+```
+###   
+
+### Inserting Rules
+
+  
+The following commands inserts a rule using the -I option:  
+  
+iptables -I INPUT 5 -p tcp --dport 80 -j ACCEPT  
+iptables -I INPUT 6 -p tcp --dport 443 -j ACCEPT  
+  
+```
+[root@glt ~]# iptables -I INPUT 5 -p tcp --dport 80 -j ACCEPT  
+[root@glt ~]# iptables -I INPUT 6 -p tcp --dport 443 -j ACCEPT  
+[root@glt ~]# iptables -nvL --line-numbers  
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+1    3777K 5463M ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED  
+2       82  2954 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0  
+3       10   440 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0  
+4      186 10820 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22  
+5        0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           tcp dpt:80  
+6        0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           tcp dpt:443  
+7      905 60465 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited  
+  
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+1        0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited  
+  
+Chain OUTPUT (policy ACCEPT 52 packets, 4976 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+[root@glt ~]#  
+```
+###   
+
+### Replacing Rules
+
+  
+Using the -R option existing rules can be replaced in the chain:  
+  
+iptables -R INPUT 5 -p tcp -s 192.168.0.0/24 --dport 80 -j ACCEPT  
+  
+```
+[root@glt ~]# iptables -R INPUT 5 -p tcp -s 192.168.0.0/24 --dport 80 -j ACCEPT  
+[root@glt ~]# iptables -nvL --line-numbers  
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+1    3777K 5463M ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED  
+2       83  3015 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0  
+3       10   440 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0  
+4      186 10820 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22  
+5        0     0 ACCEPT     tcp  --  *      *       192.168.0.0/24       0.0.0.0/0           tcp dpt:80  
+6        0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           tcp dpt:443  
+7      917 61834 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited  
+  
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+1        0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited  
+  
+Chain OUTPUT (policy ACCEPT 3 packets, 436 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination
+```
+  
+Other example: replacing rule on line 2 that allows ICMP to blocking ICMP  
+  
+```
+[root@glt ~]# iptables -R INPUT 2 -p icmp --icmp-type echo-request -j DROP  
+[root@glt ~]# iptables -nvL --line-numbers  
+Chain INPUT (policy ACCEPT 0 packets, 0 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+1    3782K 5464M ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED  
+2        0     0 DROP       icmp --  *      *       0.0.0.0/0            0.0.0.0/0           icmp type 8  
+3       10   440 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0  
+4      503 29488 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           state NEW tcp dpt:22  
+5        0     0 ACCEPT     tcp  --  *      *       192.168.0.0/24       0.0.0.0/0           tcp dpt:80  
+6        8   348 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0           tcp dpt:443  
+7     1530  101K REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited  
+  
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+1        0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           reject-with icmp-host-prohibited  
+  
+Chain OUTPUT (policy ACCEPT 40 packets, 3952 bytes)  
+num   pkts bytes target     prot opt in     out     source               destination  
+[root@glt ~]#
+```
+### Saving changes to the filter table
+
+  
+The iptables Rules changes using CLI commands will be lost upon system reboot if not saved. The command iptables-save can be used to save changes. The utility iptables-restore can be used to restore the table if a dump file is created:  
+  
+iptables-save > iptables.dump  
+  
+```
+[root@glt ~]#  iptables-save > iptables.dump  
+[root@glt ~]# ls  
+anaconda-ks.cfg                      install.log  
+HoneyDrive_0.2_Nectar_edition.ova    install.log.syslog  
+HoneyDrive_0.2_Nectar_edition.ova.1  iptables.dump  
+[root@glt ~]# cat iptables.dump  
+
+Generated by iptables-save v1.4.7 on Thu Sep  5 22:48:36 2013  
+*filter  
+:INPUT ACCEPT [0:0]  
+:FORWARD ACCEPT [0:0]  
+:OUTPUT ACCEPT [23:4220]  
+-A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT  
+-A INPUT -p icmp -j ACCEPT  
+-A INPUT -i lo -j ACCEPT  
+-A INPUT -p tcp -m state --state NEW -m tcp --dport 22 -j ACCEPT  
+-A INPUT -s 192.168.0.0/24 -p tcp -m tcp --dport 80 -j ACCEPT  
+-A INPUT -p tcp -m tcp --dport 443 -j ACCEPT  
+-A INPUT -j REJECT --reject-with icmp-host-prohibited  
+-A FORWARD -j REJECT --reject-with icmp-host-prohibited  
+COMMIT  
+Completed on Thu Sep  5 22:48:36 2013  
+```
+
+> Written with [StackEdit](https://stackedit.io/).
